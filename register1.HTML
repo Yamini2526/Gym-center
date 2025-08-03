@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - GetFit</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('./images/bg.avif');
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="d-flex justify-content-center align-items-center vh-100">
+    <div class="container w-50 shadow-lg border border-secondary rounded p-4 text-white" style="background-color: rgba(0, 0, 0, 0.6);">
+        <ul class="nav nav-tabs" id="registerTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="student-tab" data-bs-toggle="tab" data-bs-target="#student" type="button" role="tab" aria-controls="student" aria-selected="true">Student</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="faculty-tab" data-bs-toggle="tab" data-bs-target="#faculty" type="button" role="tab" aria-controls="faculty" aria-selected="false">Faculty</button>
+            </li>
+        </ul>
+        
+        <div class="tab-content mt-3" id="registerTabsContent">
+            <!-- Student Registration Form -->
+            <div class="tab-pane fade show active" id="student" role="tabpanel" aria-labelledby="student-tab">
+                <form onsubmit="return verifyEmail(event, 'student')" class="was-validated" id="studentSignupForm">
+                    <h2 class="text-white d-flex justify-content-center rounded-bottom">Register as Student</h2>
+                    <div class="mb-3">
+                        <label for="student_username" class="form-label">Username:</label>
+                        <input type="text" class="form-control" name="username" id="student_username" placeholder="Enter username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="rollno" class="form-label">Roll Number:</label>
+                        <input type="text" class="form-control" name="rollno" id="rollno" placeholder="Enter Roll Number" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="student_email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" name="email" id="student_email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="student_password" class="form-label">Password:</label>
+                        <input type="password" class="form-control" name="password" id="student_password" placeholder="Enter Password" required pattern=".{8,}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="student_confirm_password" class="form-label">Confirm Password:</label>
+                        <input type="password" class="form-control" name="confirm_password" id="student_confirm_password" placeholder="Enter confirm password" required>
+                    </div>
+                    <div class="mb-3">
+                        <button type="button" class="btn btn-primary" onclick="sendVerificationCode('student')">Send Verification Code</button>
+                    </div>
+                    <div class="mb-3" id="student_verification" style="display: none;">
+                        <label for="student_verification_code" class="form-label">Enter Verification Code:</label>
+                        <input type="text" class="form-control" id="student_verification_code" placeholder="Enter the code" required>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <p>I already have an account?<a href="./login.html" class="text-primary"> Sign In</a></p>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button class="btn btn-success" name="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+            
+            <!-- Faculty Registration Form -->
+            <div class="tab-pane fade" id="faculty" role="tabpanel" aria-labelledby="faculty-tab">
+                <form onsubmit="return verifyEmail(event, 'faculty')" class="was-validated" id="facultySignupForm">
+                    <h2 class="text-white d-flex justify-content-center rounded-bottom">Register as Faculty</h2>
+                    <div class="mb-3">
+                        <label for="faculty_username" class="form-label">Username:</label>
+                        <input type="text" class="form-control" name="username" id="faculty_username" placeholder="Enter username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="faculty_id" class="form-label">Faculty ID:</label>
+                        <input type="text" class="form-control" name="faculty_id" id="faculty_id" placeholder="Enter Faculty ID" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="faculty_email" class="form-label">Email:</label>
+                        <input type="email" class="form-control" name="email" id="faculty_email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="faculty_password" class="form-label">Password:</label>
+                        <input type="password" class="form-control" name="password" id="faculty_password" placeholder="Enter Password" required pattern=".{8,}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="faculty_confirm_password" class="form-label">Confirm Password:</label>
+                        <input type="password" class="form-control" name="confirm_password" id="faculty_confirm_password" placeholder="Enter confirm password" required>
+                    </div>
+                    <div class="mb-3">
+                        <button type="button" class="btn btn-primary" onclick="sendVerificationCode('faculty')">Send Verification Code</button>
+                    </div>
+                    <div class="mb-3" id="faculty_verification" style="display: none;">
+                        <label for="faculty_verification_code" class="form-label">Enter Verification Code:</label>
+                        <input type="text" class="form-control" id="faculty_verification_code" placeholder="Enter the code" required>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <p>I already have an account?<a href="./login.html" class="text-primary"> Sign In</a></p>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button class="btn btn-success" name="submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init({
+                publicKey: "NYs4i29kz_8eW3b_j",
+            });
+        })();
+
+        function generateRandomCode() {
+            return Math.floor(100000 + Math.random() * 900000).toString();
+        }
+
+        function sendVerificationCode(userType) {
+            const emailInput = userType === 'student' ? document.getElementById('student_email') : document.getElementById('faculty_email');
+            const email = emailInput.value;
+            const randomCode = generateRandomCode();
+
+            // Send the verification code to the email using EmailJS
+            sendVerificationEmail(email, randomCode);
+
+            // Show the verification input field
+            if (userType === 'student') {
+                document.getElementById('student_verification').style.display = 'block';
+            } else {
+                document.getElementById('faculty_verification').style.display = 'block';
+            }
+        }
+
+        function verifyEmail(event, userType) {
+            event.preventDefault(); // Prevent form submission
+
+            const verificationCodeInput = userType === 'student' ? document.getElementById('student_verification_code') : document.getElementById('faculty_verification_code');
+            const userCode = verificationCodeInput.value;
+
+            // Check if the entered code matches the generated code
+            if (userCode === randomCode) {
+                alert("Email verified successfully!");
+                // If verified, you can now submit the form
+                if (userType === 'student') {
+                    document.getElementById('studentSignupForm').submit();
+                } else {
+                    document.getElementById('facultySignupForm').submit();
+                }
+            } else {
+                alert("Verification code is incorrect. Please try again.");
+            }
+        }
+
+        function sendVerificationEmail(email, code) {
+            const templateParams = {
+                email: email,
+                code: code,
+                time: new Date(Date.now() + 15 * 60 * 1000).toLocaleTimeString() //15 minutes from now
+            };
+
+            emailjs.send('service_a8lio3s', 'template_o59qkbe', templateParams)
+                .then(function(response) {
+                    console.log('Email sent successfully!', response.status, response.text);
+                }, function(error) {
+                    console.error('Failed to send email. Error:', error);
+                });
+        }
+    </script>
+</body>
+</html>

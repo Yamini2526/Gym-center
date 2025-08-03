@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gymfit Bookings</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        .profile-pic {
+            width: 70px;
+            height: 70px;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+        bodycomment {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg,#f18973,#d5f4e6,#f18973);
+            background-size: 400% 400%;
+            animation: floatingBackground 10s infinite alternate ease-in-out;
+            padding: 20px;
+        }
+
+        @keyframes floatingBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+       .containercomment{
+            max-width: 600px;
+            margin: auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            animation: floatEffect 3s ease-in-out infinite;
+        }
+
+        @keyframes floatEffect {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #808080;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+    </style>
+    <script>
+        let slotBookings = {
+            " MORNING ": 0,
+            "EVENING": 0
+          };
+        
+        function bookSlot(event) {
+            event.preventDefault();
+            let timeSlot = document.getElementById("time").value;
+            let email = prompt("Enter your email for confirmation:");
+            
+            if (!email) {
+                alert("Email is required for booking confirmation.");
+                return;
+            }
+            
+            if (slotBookings[timeSlot] >= 20) {
+                alert("Slot is fully booked! You have been added to the waitlist.");
+                return;
+            }
+            
+            slotBookings[timeSlot] += 1;
+            alert("Booking confirmed! A confirmation email has been sent to " + email);
+            
+            let historyList = document.getElementById("history-list");
+            let listItem = document.createElement("li");
+            listItem.textContent =" Booked "+timeSlot+" - Confirmation sent to "+email;
+            historyList.appendChild(listItem);
+        }
+    </script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top w-100">
+        <div class="container">
+          <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="profileModalLabel">Profile Details</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                  <div class="position-relative d-inline-block">
+                    <img src="./images/profile.jpeg" id="modalProfilePic" class="img-fluid mb-3" width="100" height="100" alt="Profile">
+                    <span class="edit-icon position-absolute top-50 start-50 translate-middle bg-light rounded-circle p-2 d-none">
+                      <i class="fas fa-pencil-alt text-dark"></i>
+                    </span>
+                  </div>
+                  <h5 id="modalUser  Name">'.$username.'</h5>
+                  <p class="text-muted" id="modalUser  Email">'.$email.'</p>
+                  <div class="text-start px-4">
+                    <p><strong>Username:</strong> <span id="modalUser  Username">'.$username.'</span></p>
+                    <p><strong>Date of Birth:</strong> <span id="modalUser  DOB">'.$date_of_birth.'</span></p>
+                    <p><strong>Phone Number:</strong> <span id="modalUser  Phone">'.$phno.'</span></p>
+                    <p><strong>Height:</strong> <span id="modalUser  Height">'.$height.'</span></p>
+                    <p><strong>Weight:</strong> <span id="modalUser  Weight">'.$cur_weight.' kg</span></p>
+                  </div>
+                  <form action="" method="post">
+                    <button class="btn btn-outline-danger mt-3 w-100" name="logout">Logout</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <img src="./images/profile.jpeg" class="img-fluid rounded-circle profile-pic ms-3 p-1 mx-3" alt="Profile" data-bs-toggle="modal" data-bs-target="#profileModal">
+          <a class="navbar-brand fs-2" href="#">GetFit</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item"><a class="nav-link" href="dashboard.php">Dashboard</a></li>
+              <li class="nav-item"><a class="nav-link" href="workout.php">Workouts</a></li>
+              <li class="nav-item"><a class="nav-link" href="progress.html">Progress</a></li>
+              <li class="nav-item"><a class="nav-link" href="booking.html">Bookings</a></li>
+              <li class="nav-item"><a class="nav-link" href="diet.html">Diet plans</a></li>
+              <li class="nav-item"><a class="nav-link" href="about1.html">About</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <div class="container">
+        <h2>Gym Booking Form</h2>
+        <form onsubmit="bookSlot(event)">
+            <label for="date">Select Date:</label>
+            <input type="date" id="date" required>
+            
+            <label for="time">Select Time Slot:</label>
+            <select id="time">
+                <option value=6:00AM-7:00AM>MORNING</option>
+                <option value=5:00PM -6:00 PM>EVENING</option>
+            </select>
+            
+            <label for="session">Session Type:</label>
+            <select id="session">
+                <option value="strength">Strength Training</option>
+                <option value="cardio">Cardio</option>
+            </select>
+            <label for="trainer">Choose Trainer:</label>
+            <select id="trainer">
+                <option value="john">John</option>
+                <option value="emma">Emma</option>
+                <option value="chris">Chris</option>
+                <option value="sofia">Sofia</option>
+            </select>
+            
+            <!-- <label for="equipment">Reserve Equipment:</label>
+            <select id="equipment">
+                <option value="none">None</option>
+                <option value="treadmill">Treadmill</option>
+                <option value="weights">Weights</option>
+                <option value="cycling">Cycling Machine</option>
+                <option value="dumbbells">Dumbbells</option>
+            </select> -->
+            
+            <!-- <label for="membership">Membership ID:</label>
+            <input type="text" id="membership" placeholder="Enter your membership ID" required>
+             -->
+            <button type="submit">Book Now</button>
+        </form>
+        <div class="booking-history">
+            <h3>Booking History</h3>
+            <ul id="history-list">
+                <li>No past bookings.</li>
+            </ul>
+        </div>
+        
+        <!-- <div class="waitlist">
+            <h3>Join Waitlist</h3>
+            <button>Join Waitlist</button>
+        </div> -->
+    </div>
+</body>
+</html>
